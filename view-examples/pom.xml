@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<packaging>jar</packaging>
+
+	<groupId>com.solibri</groupId>
+	<artifactId>smc-api-view-examples</artifactId>
+	<name>Solibri API View Examples</name>
+	<version>1.0.0</version>
+
+	<properties>
+		<!-- Solibri installation path on Windows -->
+		<smc-dir>C:/Program Files/Solibri/SOLIBRI</smc-dir>
+
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<slf4j-api.version>1.7.15</slf4j-api.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>platform-mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<!-- Solibri installation path on macOS -->
+				<smc-dir>/Applications/Solibri</smc-dir>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-geometry</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-geometry.jar</systemPath>
+		</dependency>
+		<!-- slf4j-api can be used for logging capabilities. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
+		</dependency>
+		<!-- SQLite is needed in the checking results exporter example view. -->
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.30.1</version>
+		</dependency>
+		
+		<!-- httpclient and google-api-services-customsearch are needed for the IFC Viewer example view. -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-customsearch</artifactId>
+			<version>v1-rev74-1.25.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${smc-dir}/lib</outputDirectory>
+				</configuration>
+			</plugin>
+			<!-- maven-shade-plugin is needed because we use external dependencies that aren't found from the installation automatically. 
+				maven-shade-plugin packages everything into a single JAR file. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<!-- This transformer is needed in the checking 
+								results exporter example view. -->
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/services/java.sql.Driver</resource>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

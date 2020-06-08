@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<packaging>jar</packaging>
+
+	<groupId>com.solibri</groupId>
+	<artifactId>smc-api-info-examples</artifactId>
+	<name>Solibri API Info Examples</name>
+	<version>1.0.0</version>
+
+	<properties>
+		<!-- Solibri installation path on Windows -->
+		<smc-dir>C:/Program Files/Solibri/SOLIBRI</smc-dir>
+
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<slf4j-api.version>1.7.15</slf4j-api.version>
+		<poi.version>3.9</poi.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>platform-mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<!-- Solibri installation path on macOS -->
+				<smc-dir>/Applications/Solibri</smc-dir>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-geometry</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-geometry.jar</systemPath>
+		</dependency>
+		<!-- slf4j-api can be used for logging capabilities. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
+		</dependency>
+		<!-- These are needed for reading Excel files. -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<!-- This is used for the DynamicInformation to create dynamic Java methods at runtime. -->
+		<dependency>
+		    <groupId>org.javassist</groupId>
+		    <artifactId>javassist</artifactId>
+		    <version>3.26.0-GA</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${smc-dir}/lib</outputDirectory>
+				</configuration>
+			</plugin>
+			<!-- maven-shade-plugin is needed because we use external dependencies that aren't found from the installation automatically. 
+				maven-shade-plugin packages everything into a single JAR file. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

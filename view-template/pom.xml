@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<packaging>jar</packaging>
+
+	<!-- Change this to match your company name -->
+	<groupId>com.solibri</groupId>
+	
+	<!-- Change this to match your rule project name -->
+	<artifactId>smc-api-view-template</artifactId>
+
+	<!-- Change this to match your rule project name -->
+	<name>Solibri API View Template Project</name>
+			
+	<version>1.0.0</version>
+
+	<properties>
+		<!-- Solibri installation path on Windows -->
+		<smc-dir>C:/Program Files/Solibri/SOLIBRI</smc-dir>
+
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>platform-mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<!-- Solibri installation path on macOS -->
+				<smc-dir>/Applications/Solibri</smc-dir>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.solibri.smc</groupId>
+			<artifactId>smc-geometry</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/smc-geometry.jar</systemPath>
+		</dependency>
+		<!-- slf4j-api can be used for logging capabilities. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${smc-dir}/lib</outputDirectory>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<SMC-Rule>1.0</SMC-Rule>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
