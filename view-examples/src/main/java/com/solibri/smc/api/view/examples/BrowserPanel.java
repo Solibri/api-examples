@@ -15,7 +15,7 @@ public final class BrowserPanel extends JFXPanel {
 	public static BrowserPanel getBrowserPanel(String url) {
 		final BrowserPanel panel = new BrowserPanel();
 		Platform.runLater(() -> {
-			Browser browser = new Browser(panel, url);
+			Browser browser = new Browser(url);
 			Scene scene = new Scene(browser, 750, 500, Color.DARKGREY);
 			panel.setScene(scene);
 		});
@@ -28,11 +28,7 @@ public final class BrowserPanel extends JFXPanel {
 	private static class Browser extends Region {
 		private final WebView browser = new WebView();
 
-		private final BrowserPanel browserPanel;
-
-		Browser(BrowserPanel browserPanel, String urlToLoad) {
-			this.browserPanel = browserPanel;
-
+		Browser(String urlToLoad) {
 			// disable context menu
 			browser.setContextMenuEnabled(false);
 

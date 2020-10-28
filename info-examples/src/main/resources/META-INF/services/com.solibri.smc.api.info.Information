@@ -1,3 +1,9 @@
 com.solibri.smc.api.examples.DistanceFromDoors
+com.solibri.smc.api.examples.IsInSelectionBasket
+com.solibri.smc.api.examples.HasFailedChecking
 com.solibri.smc.api.examples.FoundFromExcel
 com.solibri.smc.api.examples.DynamicInformation
+com.solibri.smc.api.examples.AmountOfDoors
+com.solibri.smc.api.examples.HasDoors
+com.solibri.smc.api.examples.WindowFloorAreaPercentage
+com.solibri.smc.api.examples.SchedulingInformation

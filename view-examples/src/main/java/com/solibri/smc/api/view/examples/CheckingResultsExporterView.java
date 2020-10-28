@@ -14,6 +14,7 @@ import java.util.Collection;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class CheckingResultsExporterView implements View {
 		return "Checking Exporter";
 	}
 
+	private JPanel rootPanel;
 	private JCheckBox box;
 	private JButton button;
 	private MaximumExportedResultsSetting maximumExportedResultsSetting = SMC.getSettings().getSetting(MaximumExportedResultsSetting.class);
@@ -39,6 +41,7 @@ public class CheckingResultsExporterView implements View {
 
 	@Override
 	public void initializePanel(JPanel panel) {
+		this.rootPanel = panel;
 		panel.setLayout(new GridLayout(1, 2));
 
 		JButton newButton = new JButton("Export!");
@@ -61,6 +64,13 @@ public class CheckingResultsExporterView implements View {
 	}
 
 	@Override
+	public boolean onApplicationExit() {
+		int chosenOption = JOptionPane.showConfirmDialog(rootPanel,
+			"Do you really wish to close the software?", "Closing confirmation", JOptionPane.YES_NO_OPTION);
+		return JOptionPane.YES_OPTION == chosenOption;
+	}
+
+	@Override
 	public void onCheckingStarted() {
 		LOG.info("onCheckingStarted");
 		// Do not allow exports during checking.
@@ -77,6 +87,12 @@ public class CheckingResultsExporterView implements View {
 		} else {
 			exportResults();
 		}
+	}
+
+	@Override
+	public void onModelClosed() {
+		// Do not allow manual exports anymore now that the model has been closed.
+		this.button.setEnabled(false);
 	}
 
 	private static final int TIMEOUT = 30;

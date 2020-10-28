@@ -59,15 +59,15 @@ public class FoundFromExcel implements Information<Boolean> {
 				Cell cell = row.getCell(0);
 
 				switch (cell.getCellType()) {
-				case Cell.CELL_TYPE_STRING:
+				case STRING:
 					if (id.equals(cell.getStringCellValue())) {
 						return Optional.of(Boolean.TRUE);
 					}
 					break;
-				case Cell.CELL_TYPE_NUMERIC:
+				case NUMERIC:
 					LOG.warn("The cell value was numeric: {}", cell.getNumericCellValue());
 					continue;
-				case Cell.CELL_TYPE_BOOLEAN:
+				case BOOLEAN:
 					LOG.warn("The cell value was boolean: {}", cell.getNumericCellValue());
 					continue;
 				default:

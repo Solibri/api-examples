@@ -68,6 +68,10 @@ public final class UIComponentExample extends OneByOneRule {
 		Arrays.asList("rpEnumerationParameterForRadioButtons.OPTION1", "rpEnumerationParameterForRadioButtons.OPTION2",
 			"rpEnumerationParameterForRadioButtons.OPTION3"));
 
+	private final EnumerationParameter enumerationParameterForComboBox = params.createEnumeration("rpEnumerationParameterForComboBox",
+		Arrays.asList("rpEnumerationParameterForComboBox.OPTION1", "rpEnumerationParameterForComboBox.OPTION2",
+			"rpEnumerationParameterForComboBox.OPTION3"));
+
 	private final TableParameter tableParameter = params.createTable("rpTableParameter",
 		Arrays.asList("rpTableParameter.LENGTH", "rpTableParameter.HEIGHT"), Arrays.asList(PropertyType.LENGTH, PropertyType.LENGTH));
 
@@ -90,7 +94,11 @@ public final class UIComponentExample extends OneByOneRule {
 		System.out.println("The value of the boolean parameter is " + booleanParameterValue);
 
 		PropertyReference propertyReference = propertyReferenceParameter.getValue();
-		System.out.println("The name of the referred property is " + propertyReference.getPropertyName());
+		if (propertyReference == null) {
+			System.out.println("The referred property is not set");
+		} else {
+			System.out.println("The name of the referred property is " + propertyReference.getPropertyName());
+		}
 
 		/*
 		 * Get the value of the referenced property from the component and print it if the value is present.
@@ -205,6 +213,7 @@ public final class UIComponentExample extends OneByOneRule {
 		parameterContainer.addComponent(UIRuleParameter.create(doubleParameter));
 		parameterContainer.addComponent(UIRuleParameter.create(booleanParameter));
 		parameterContainer.addComponent(UIRuleParameter.create(propertyReferenceParameter));
+		parameterContainer.addComponent(UIRuleParameter.create(enumerationParameterForComboBox));
 
 		/*
 		 * Add the parameter container to the horizontal container. As the
