@@ -15,4 +15,4 @@ The API is supposed to be developed in a way that any example will work with the
 ## How to use
 
 The examples are build using Maven build system. Building them should be possible on any major operating system.
-The build the examples JDK 8 and Maven installation are needed. We hope to integrate Maven Wrapper to the examples at once that is integrated to the Maven core, removing the need for manual Maven installations. Gradle or any other Java build system can also be used to build the examples, but we do not provide the build configurations for those systems.
+The build the examples JDK 11 and Maven installation are needed. We hope to integrate Maven Wrapper to the examples at once that is integrated to the Maven core, removing the need for manual Maven installations. Gradle or any other Java build system can also be used to build the examples, but we do not provide the build configurations for those systems.
