@@ -18,7 +18,7 @@
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
 		<slf4j-api.version>1.7.15</slf4j-api.version>
-		<poi.version>3.9</poi.version>
+		<poi.version>4.1.2</poi.version>
 	</properties>
 
 	<profiles>
@@ -84,8 +84,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>
+					<encoding>UTF-8</encoding>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
 

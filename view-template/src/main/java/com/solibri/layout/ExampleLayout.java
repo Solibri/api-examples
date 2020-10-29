@@ -6,8 +6,8 @@ import java.util.List;
 import com.solibri.smc.api.layout.Layout;
 import com.solibri.smc.api.layout.LayoutView;
 import com.solibri.smc.api.layout.Split;
-import com.solibri.smc.api.ui.InternalViews;
 import com.solibri.smc.api.ui.View;
+import com.solibri.smc.api.ui.views.InternalViews;
 
 /**
  * Defines an example layout that includes model tree view, 3D view and info view. Model tree view takes 1/3 of the
