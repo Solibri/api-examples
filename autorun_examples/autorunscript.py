@@ -1,4 +1,5 @@
 import os
+import platform
 from xml.dom import minidom
 import pathlib
 from datetime import *
@@ -7,16 +8,6 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 def main():
-	# Find the Solibri installation path
-	try:
-	    root_key=OpenKey(HKEY_LOCAL_MACHINE, r'SOFTWARE\Solibri\SMC', 0, KEY_READ)
-	    [SolibriInstallationPath,regtype]=(QueryValueEx(root_key,"home"))
-	    CloseKey(root_key)
-	    if (""==SolibriInstallationPath):
-	        raise WindowsError
-	except WindowsError:
-	    print("Error")
-
 	# Set the path of the current script file
 	path = pathlib.Path(__file__).parent.absolute()
 	xmlfileName = "AutorunScript.xml"
@@ -151,9 +142,21 @@ def main():
 	           
 	xmlFile.close() 
 
-	# Execute Solibri without SplashScreen for black-box mode
-	command = "\"" + str(SolibriInstallationPath) + "\" \"" + str(path) + "\\" + str(xmlfileName) + "\"" # + "-J-splash:none"
-	os.system('cmd /k \"' + str(command) + '\"') 
+	if( platform.system() == "Windows"):
+		# Find the Solibri installation path for Windows 
+		try:
+		    root_key=OpenKey(HKEY_LOCAL_MACHINE, r'SOFTWARE\Solibri\SMC', 0, KEY_READ)
+		    [SolibriInstallationPath,regtype]=(QueryValueEx(root_key,"home"))
+		    CloseKey(root_key)
+		    if (""==SolibriInstallationPath):
+		        raise WindowsError
+		except WindowsError:
+		    print("Error")
+		command = "\"" + str(SolibriInstallationPath) + "\" \"" + str(path) + "\\" + str(xmlfileName) + "\"" + "-J-splash:none"
+		os.system('cmd /k \"' + str(command) + '\"') 
+
+	if( platform.system() == "OSX"):
+		command = "Open Solibri.app --args " + str(path) + "\\" + str(xmlfileName) + "\"" + "-J-splash:none"
 
 	root.destroy()
 	quit()
