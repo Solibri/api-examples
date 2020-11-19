@@ -126,7 +126,7 @@ def main():
 	xmlFile.write("\t \t <createpresentation />  \n")
 
 	# Coordination Report
-	xmlFile.write("\t \t <coordinationreport file=\"" + str(path) + "\\" + os.path.basename(ifcfiles[0])[0:3] + "_CoordinationReport.xlsx\" />\n")
+	xmlFile.write("\t \t <coordinationreport file=\"" + str(path) + "\\" + os.path.basename(ifcfiles[0])[0:3] + "_CoordinationReport.xlsx\"" + " templatefile=\""+ str(path) + "\\templates\\CoordinationReportTemplate.xlsx\" />\n")
 
 	# BCF Report
 	xmlFile.write("\t \t <bcfreport file=\"" + str(path) + "\\" + os.path.basename(ifcfiles[0])[0:3] + "_BCFReport.bcfzip\" />\n")
@@ -155,8 +155,10 @@ def main():
 		command = "\"" + str(SolibriInstallationPath) + "\" \"" + str(path) + "\\" + str(xmlfileName) + "\"" + "-J-splash:none"
 		os.system('cmd /k \"' + str(command) + '\"') 
 
-	if( platform.system() == "OSX"):
-		command = "Open Solibri.app --args " + str(path) + "\\" + str(xmlfileName) + "\"" + "-J-splash:none"
+	if (search("mac", platform.platform())):
+	      # Solbiri is installed under Applications/Solibri/
+	      command = "Open /Applications/Solibri/Solibri.app --args " + str(path) + "/" + str(xmlfileName) + " -J-splash:none"
+	      subprocess.call(command, shell=True)
 
 	root.destroy()
 	quit()
