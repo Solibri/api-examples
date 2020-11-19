@@ -1,7 +1,7 @@
 # Autorun Python script
 
 * This folder contains an example project how to use the Solibri Autorun function in combination with a Python script to further automate the work processes in Solibri
-* This tutorial mainly is written for Windows and most likely needs some updates to work for macOS or other OS
+* This example is mainly done (and tested) for Windows OS - Autorun also works for macOS, but it will need most likely some polishing in order to work the same way
 
 ## Prerequisites
 
