@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<role>
+  <description>&lt;html&gt;
+  &lt;head&gt;
+    
+  &lt;/head&gt;
+  &lt;body&gt;
+    Use this role to execute Autorun scripts
+  &lt;/body&gt;
+&lt;/html&gt;</description>
+  <root>.</root>
+  <rulesets />
+  <classifications />
+  <itos />
+</role>
