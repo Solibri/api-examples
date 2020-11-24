@@ -8,11 +8,11 @@
 * Having Python installed --> https://www.python.org/ (recommended version: Python 3.5)
 * Having a Solibri Office or Solibri Site license as Autorun ist not available for Solibri Anywhere
 * Having Solibri (Office) installed (later than 9.10.8 as it must contain the Autorun extension)
-	* If Autorun is not included in your Solibri version or license it will simply raise an error message window when trying to startup with the autorun script
+  * If Autorun is not included in your Solibri version or license it will simply raise an error message window when trying to startup with the autorun script
 * Before using this script, please start Solibri once and load the **AutorunRole** in the *.\autorun_examples\templates* folder - this will prevent other resources from loading what could result in errors 
- * Launch Solibri
- * Go to *Roles* in the main menu
- * Open *.\autorun_examples\templates\AutorunRole.xml*
+  * Launch Solibri
+  * Go to *Roles* in the main menu
+  * Open *.\autorun_examples\templates\AutorunRole.xml*
 
 ## Distribution
 
