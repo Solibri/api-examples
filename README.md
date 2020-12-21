@@ -1,5 +1,5 @@
 # api-examples
-Solibri Developer Platform APIs examples
+[Solibri Developer Platform](https://solibri.github.io/Developer-Platform/) APIs examples
 
 ## Licensing
 
