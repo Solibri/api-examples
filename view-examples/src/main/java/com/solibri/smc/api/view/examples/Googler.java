@@ -5,11 +5,10 @@ import java.security.GeneralSecurityException;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.customsearch.Customsearch;
-import com.google.api.services.customsearch.CustomsearchRequestInitializer;
-import com.google.api.services.customsearch.model.Result;
-import com.google.api.services.customsearch.model.Search;
-
+import com.google.api.services.customsearch.v1.Customsearch;
+import com.google.api.services.customsearch.v1.CustomsearchRequestInitializer;
+import com.google.api.services.customsearch.v1.model.Result;
+import com.google.api.services.customsearch.v1.model.Search;
 import com.solibri.smc.api.SMC;
 
 public class Googler {
@@ -18,7 +17,6 @@ public class Googler {
 	 * Google the given string and returns the first link found.
 	 */
 	public static String google(String object) throws IOException, GeneralSecurityException {
-		String searchQuery = "site:standards.buildingsmart.org " + object;
 		String cx = "010785531079632372336:h8d5gppfmbn";
 
 		// The API must be passed as a JVM parameter. In real code it would probably be fetched some other way.
@@ -29,7 +27,11 @@ public class Googler {
 			.build();
 
 		// Set search parameter
-		Customsearch.Cse.List list = cs.cse().list(searchQuery).setCx(cx);
+		Customsearch.Cse.List list = cs.cse().list()
+			.setSiteSearchFilter("i") // include
+			.setSiteSearch("standards.buildingsmart.org")
+			.setExactTerms(object)
+			.setCx(cx);
 
 		// Execute search
 		Search result = list.execute();
