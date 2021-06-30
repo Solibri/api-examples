@@ -1,3 +1,4 @@
 com.solibri.smc.api.view.examples.ApiKeySetting
 com.solibri.smc.api.view.examples.MaximumExportedResultsSetting
 com.solibri.smc.api.view.examples.OverwriteOldExportsSetting
+com.solibri.smc.api.view.examples.spaceinformation.ExportToExcelFileLocationSetting

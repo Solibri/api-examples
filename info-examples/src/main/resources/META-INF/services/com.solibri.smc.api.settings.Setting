@@ -1,3 +1,4 @@
 com.solibri.smc.api.examples.ExcelFileLocationSetting
 com.solibri.smc.api.examples.DynamicNameSetting
 com.solibri.smc.api.examples.DynamicValueSetting
+com.solibri.smc.api.examples.costanalysis.WallMaterialCostClassificationNameSetting
