@@ -7,3 +7,6 @@ com.solibri.smc.api.examples.AmountOfDoors
 com.solibri.smc.api.examples.HasDoors
 com.solibri.smc.api.examples.WindowFloorAreaPercentage
 com.solibri.smc.api.examples.SchedulingInformation
+com.solibri.smc.api.examples.IfcEntityType
+com.solibri.smc.api.examples.DoorWidth
+com.solibri.smc.api.examples.costanalysis.WallMaterialCostInformation

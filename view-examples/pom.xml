@@ -19,6 +19,7 @@
 		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
 		<slf4j-api.version>1.7.15</slf4j-api.version>
 		<javafx.version>14.0.1</javafx.version>
+		<poi.version>4.1.2</poi.version>
 	</properties>
 
 	<profiles>
@@ -65,7 +66,7 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.30.1</version>
 		</dependency>
-		
+
 		<!-- httpclient and google-api-services-customsearch are needed for the IFC Viewer example view. -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -78,11 +79,36 @@
 			<version>v1-rev20200917-1.30.10</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.google.api-client</groupId>
-		    <artifactId>google-api-client</artifactId>
-		    <version>1.31.1</version>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.31.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson2</artifactId>
+			<version>1.31.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.http-client</groupId>
+					<artifactId>google-http-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!-- JavaFX libraries are needed for the browser -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
@@ -103,6 +129,18 @@
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-web</artifactId>
 			<version>${javafx.version}</version>
+		</dependency>
+
+		<!-- POI needed for writing Excel files. -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -126,7 +164,7 @@
 					<outputDirectory>${smc-dir}/lib</outputDirectory>
 				</configuration>
 			</plugin>
-			<!-- maven-shade-plugin is needed because we use external dependencies that aren't found from the installation automatically. 
+			<!-- maven-shade-plugin is needed because we use external dependencies that aren't found from the installation automatically.
 				maven-shade-plugin packages everything into a single JAR file. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -140,10 +178,10 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<!-- This transformer is needed in the checking 
+								<!-- This transformer is needed in the checking
 								results exporter example view. -->
 								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/services/java.sql.Driver</resource>
 								</transformer>
 							</transformers>

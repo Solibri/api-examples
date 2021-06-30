@@ -1,3 +1,4 @@
 com.solibri.smc.api.view.examples.CheckingResultsExporterView
 com.solibri.smc.api.view.examples.IfcView
 com.solibri.smc.api.view.examples.EventsView
+com.solibri.smc.api.view.examples.spaceinformation.SpaceInformationView
