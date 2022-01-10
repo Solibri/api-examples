@@ -20,6 +20,9 @@
 		<slf4j-api.version>1.7.15</slf4j-api.version>
 		<javafx.version>14.0.1</javafx.version>
 		<poi.version>4.1.2</poi.version>
+		<google-http-client.version>1.39.2-sp.1</google-http-client.version>
+		<httpclient.version>4.5.13</httpclient.version>
+		<sqlite-jdbc.version>3.36.0.3</sqlite-jdbc.version>
 	</properties>
 
 	<profiles>
@@ -64,19 +67,60 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.30.1</version>
+			<version>${sqlite-jdbc.version}</version>
 		</dependency>
 
-		<!-- httpclient and google-api-services-customsearch are needed for the IFC Viewer example view. -->
+		<!-- httpclient and google-api-services-customsearch are needed for the
+			IFC Viewer example view. -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.2</version>
+			<version>${httpclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>${google-http-client.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.findbugs</groupId>
+					<artifactId>jsr305</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.j2objc</groupId>
+					<artifactId>j2objc-annotations</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-customsearch</artifactId>
 			<version>v1-rev20200917-1.30.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.http-client</groupId>
+					<artifactId>google-http-client</artifactId>
+				</exclusion>
+				<exclusion>
+		    		<groupId>com.google.api-client</groupId>
+		    		<artifactId>google-api-client</artifactId>
+				</exclusion>
+			</exclusions>
+
 		</dependency>
 		<dependency>
 			<groupId>com.google.api-client</groupId>
@@ -86,6 +130,18 @@
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.j2objc</groupId>
+					<artifactId>j2objc-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.code.findbugs</groupId>
+					<artifactId>jsr305</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.http-client</groupId>
+					<artifactId>google-http-client</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -105,6 +161,10 @@
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.j2objc</groupId>
+					<artifactId>j2objc-annotations</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
