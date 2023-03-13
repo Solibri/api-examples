@@ -1,11 +1,19 @@
 package com.solibri.smc.api.examples.beginner;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 import com.solibri.smc.api.checking.BooleanParameter;
 import com.solibri.smc.api.checking.DoubleParameter;
@@ -17,11 +25,14 @@ import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
 import com.solibri.smc.api.checking.RuleParameters;
 import com.solibri.smc.api.checking.RuleResources;
+import com.solibri.smc.api.checking.StringParameter;
 import com.solibri.smc.api.checking.TableParameter;
 import com.solibri.smc.api.model.Component;
 import com.solibri.smc.api.model.PropertyReference;
 import com.solibri.smc.api.model.PropertyType;
 import com.solibri.smc.api.ui.BorderType;
+import com.solibri.smc.api.ui.RuleParameterCustomUi;
+import com.solibri.smc.api.ui.UIComponent;
 import com.solibri.smc.api.ui.UIContainer;
 import com.solibri.smc.api.ui.UIContainerHorizontal;
 import com.solibri.smc.api.ui.UIContainerVertical;
@@ -74,6 +85,11 @@ public final class UIComponentExample extends OneByOneRule {
 
 	private final TableParameter tableParameter = params.createTable("rpTableParameter",
 		Arrays.asList("rpTableParameter.LENGTH", "rpTableParameter.HEIGHT"), Arrays.asList(PropertyType.LENGTH, PropertyType.LENGTH));
+
+	/**
+	 * A string parameter, whose value will be edited by a custom editor.
+	 */
+	private final StringParameter customStringParameter = params.createString("rpCustomStringParameter");
 
 	/*
 	 * Retrieve a reference to the resources of this rule. The resources of a rule can contain
@@ -167,10 +183,72 @@ public final class UIComponentExample extends OneByOneRule {
 		 */
 		mainContainer.addComponent(createContainerWithLabelAndRadioButtonWithImages());
 
+		mainContainer.addComponent(createCustomStringParameterComponent());
 		/*
 		 * Return the container that contains all of the UI components for the parameters panel.
 		 */
 		return mainContainer;
+	}
+
+	/**
+	 * A custom UI for a string parameter that presents a text panel and a button.
+	 * Modifications to the text panel are committed when the button is pressed.
+	 */
+	private final class CustomStringParameterComponent implements RuleParameterCustomUi {
+
+		private final StringParameter customStringParameter;
+		private final JTextPane textPane = new JTextPane();
+		private final CommitAction commitAction = new CommitAction();
+
+		private class CommitAction extends AbstractAction {
+			private static final long serialVersionUID = -1;
+
+			CommitAction() {
+				putValue(Action.NAME, resources.getString("CommitButton.NAME"));
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final String text = textPane.getText();
+				customStringParameter.setValue(text);
+			}
+		}
+
+		private CustomStringParameterComponent(StringParameter customStringParameter) {
+			this.customStringParameter = customStringParameter;
+		}
+
+		@Override
+		public void setEnabler(UIComponent enabler) {
+		}
+
+		@Override
+		public Optional<UIComponent> getEnabler() {
+			return Optional.empty();
+		}
+
+		@Override
+		public java.awt.Component getComponent() {
+			JButton commitButton = new JButton(commitAction);
+			final int gap = 5;
+			JPanel panel = new JPanel(new BorderLayout(gap, gap));
+			textPane.setText(customStringParameter.getValue());
+			panel.add(commitButton, BorderLayout.WEST);
+			panel.add(textPane, BorderLayout.CENTER);
+			return panel;
+		}
+
+		@Override
+		public void setEditable(boolean editable) {
+			commitAction.setEnabled(editable);
+			textPane.setEditable(editable);
+		}
+	}
+
+	private UIComponent createCustomStringParameterComponent() {
+		UIContainer container = UIContainerVertical.create(resources.getString("customStringContainer.TITLE"),
+			BorderType.LINE);
+		container.addComponent(new CustomStringParameterComponent(customStringParameter));
+		return container;
 	}
 
 	/**
