@@ -2,6 +2,7 @@ package com.solibri.smc.api.examples.beginner;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +42,8 @@ import com.solibri.smc.api.ui.UILabel;
 import com.solibri.smc.api.ui.UIRadioButtonPanel;
 import com.solibri.smc.api.ui.UIRadioButtonPanelHorizontal;
 import com.solibri.smc.api.ui.UIRuleParameter;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This example shows how to define a custom layout for the rule parameters UI
@@ -200,8 +203,9 @@ public final class UIComponentExample extends OneByOneRule {
 		private final JTextPane textPane = new JTextPane();
 		private final CommitAction commitAction = new CommitAction();
 
+		@SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "This class is not serialized")
 		private class CommitAction extends AbstractAction {
-			private static final long serialVersionUID = -1;
+			@Serial private static final long serialVersionUID = -1;
 
 			CommitAction() {
 				putValue(Action.NAME, resources.getString("CommitButton.NAME"));
