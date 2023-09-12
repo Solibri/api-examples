@@ -15,8 +15,8 @@
 		<!-- Solibri installation path on Windows -->
 		<smc-dir>C:/Program Files/Solibri/SOLIBRI</smc-dir>
 
-		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 		<slf4j-api.version>1.7.15</slf4j-api.version>
 		<javafx.version>14.0.1</javafx.version>
 		<poi.version>4.1.2</poi.version>
