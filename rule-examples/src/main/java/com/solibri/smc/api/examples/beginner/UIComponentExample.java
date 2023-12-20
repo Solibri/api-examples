@@ -2,6 +2,7 @@ package com.solibri.smc.api.examples.beginner;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -201,7 +202,7 @@ public final class UIComponentExample extends OneByOneRule {
 		private final CommitAction commitAction = new CommitAction();
 
 		private class CommitAction extends AbstractAction {
-			private static final long serialVersionUID = -1;
+			@Serial private static final long serialVersionUID = -1;
 
 			CommitAction() {
 				putValue(Action.NAME, resources.getString("CommitButton.NAME"));
