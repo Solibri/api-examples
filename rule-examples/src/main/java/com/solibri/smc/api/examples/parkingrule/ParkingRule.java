@@ -13,6 +13,7 @@ import com.solibri.geometry.linearalgebra.Vector3d;
 import com.solibri.geometry.primitive3d.AABB3d;
 import com.solibri.geometry.primitive3d.Segment3d;
 import com.solibri.smc.api.checking.BooleanParameter;
+import com.solibri.smc.api.checking.ComponentSelector;
 import com.solibri.smc.api.checking.ConcurrentRule;
 import com.solibri.smc.api.checking.DoubleParameter;
 import com.solibri.smc.api.checking.FilterParameter;
@@ -23,6 +24,7 @@ import com.solibri.smc.api.checking.RuleParameters;
 import com.solibri.smc.api.checking.RuleResources;
 import com.solibri.smc.api.footprints.Footprint;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.Model;
 import com.solibri.smc.api.model.PropertyType;
 import com.solibri.smc.api.ui.UIContainer;
 import com.solibri.smc.api.visualization.ARGBColor;
@@ -65,12 +67,18 @@ public final class ParkingRule extends ConcurrentRule {
 	private final ParkingRuleUIDefinition uiDefinition = new ParkingRuleUIDefinition(this);
 
 	private final RuleResources resources = RuleResources.of(this);
+	private Model targetModel;
 
 	@Override
 	public PreCheckResult preCheck() {
 		return PreCheckResult.createRelevant();
 	}
 
+	@Override
+	public PreCheckResult preCheck(ComponentSelector components) {
+		targetModel = components.getTargetModel();
+		return super.preCheck(components);
+	}
 	@Override
 	public Collection<Result> check(Component component, ResultFactory resultFactory) {
 		/*
@@ -79,9 +87,10 @@ public final class ParkingRule extends ConcurrentRule {
 		 * doesn't have valid footprints and bounds or the largest inscribed
 		 * rectangle wasn't found, a cannot check result will be created.
 		 */
-		OrientationChecking orientationChecking = new OrientationChecking(getRpParkingAisleFilter().getValue());
+		OrientationChecking orientationChecking = new OrientationChecking(targetModel,
+			getRpParkingAisleFilter().getValue());
 		ParkingSpace parkingSpace = createParkingSpace(component);
-		ObstructionChecking obstructionChecking = new ObstructionChecking(getRpMinimumWidth().getValue(),
+		ObstructionChecking obstructionChecking = new ObstructionChecking(targetModel, getRpMinimumWidth().getValue(),
 			getRpParkingObstructionsFilter().getValue());
 		if (parkingSpace == null || !parkingSpace.isValid()) {
 			return Collections.singleton(
@@ -294,7 +303,6 @@ public final class ParkingRule extends ConcurrentRule {
 
 		boolean hasSelectedEndObstruction = true;
 		boolean hasSelectedSideObstruction = true;
-
 		obstructionChecking.findParkingSpaceObstructions(parkingSpace);
 
 		if (getRpSideObstructionNo().getValue() || getRpSideObstructionOne().getValue() || getRpSideObstructionBoth()

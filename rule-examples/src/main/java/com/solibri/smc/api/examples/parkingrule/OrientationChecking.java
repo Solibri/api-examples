@@ -19,10 +19,10 @@ import com.solibri.geometry.primitive2d.Segment2d;
 import com.solibri.geometry.primitive3d.AABB3d;
 import com.solibri.geometry.primitive3d.Rectangle3d;
 import com.solibri.geometry.primitive3d.Segment3d;
-import com.solibri.smc.api.SMC;
 import com.solibri.smc.api.filter.AABBIntersectionFilter;
 import com.solibri.smc.api.filter.ComponentFilter;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.Model;
 
 final class OrientationChecking {
 
@@ -53,9 +53,11 @@ final class OrientationChecking {
 		Parallel, Perpendicular, Angled, Undefined
 	}
 
+	private final Model targetModel;
 	private final ComponentFilter parkingObstructionsFilter;
 
-	OrientationChecking(ComponentFilter parkingOrientationFilter) {
+	OrientationChecking(Model targetModel, ComponentFilter parkingOrientationFilter) {
+		this.targetModel = targetModel;
 		this.parkingObstructionsFilter = parkingOrientationFilter;
 	}
 
@@ -73,7 +75,7 @@ final class OrientationChecking {
 			.ofComponentBounds(parkingSpace.getEntity(), SEARCH_DISTANCE, ELEVATION_TOLERANCE)
 			.and(parkingObstructionsFilter);
 
-		Collection<Component> closeComponents = SMC.getModel().getComponents(obstructionsFilter);
+		Collection<Component> closeComponents = targetModel.getComponents(obstructionsFilter);
 
 		// Retrieve the aisle with the same elevation
 		List<Component> closeAislesEntities = getAisleEntitiesWithSameElevation(closeComponents,

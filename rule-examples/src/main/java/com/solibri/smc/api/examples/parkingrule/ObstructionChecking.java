@@ -18,10 +18,10 @@ import com.solibri.geometry.primitive2d.Rectangle2d;
 import com.solibri.geometry.primitive2d.Segment2d;
 import com.solibri.geometry.primitive3d.MAABB3d;
 import com.solibri.geometry.primitive3d.Segment3d;
-import com.solibri.smc.api.SMC;
 import com.solibri.smc.api.filter.AABBIntersectionFilter;
 import com.solibri.smc.api.filter.ComponentFilter;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.Model;
 
 final class ObstructionChecking {
 
@@ -37,6 +37,7 @@ final class ObstructionChecking {
 	private static final double END_OBSTRUCTION_DISTANCE = 1.0;
 
 	private final ComponentFilter parkingObstructionsFilter;
+	private final Model targetModel;
 	private final double minimumWidth;
 	private ParkingSpace parkingSpace;
 	private List<Component> potentialObstructions;
@@ -44,7 +45,8 @@ final class ObstructionChecking {
 	private double endObstructionCornerTolerance;
 	private double sideObstructionCornerTolerance;
 
-	ObstructionChecking(double minimumWidth, ComponentFilter parkingObstructionsFilter) {
+	ObstructionChecking(Model targetModel, double minimumWidth, ComponentFilter parkingObstructionsFilter) {
+		this.targetModel = targetModel;
 		this.minimumWidth = minimumWidth;
 		this.parkingObstructionsFilter = parkingObstructionsFilter;
 	}
@@ -274,7 +276,7 @@ final class ObstructionChecking {
 		max.setZ(min.getZ() + height);
 
 		// Find obstructions within tolerance
-		Collection<Component> obstructionEntities = SMC.getModel()
+		Collection<Component> obstructionEntities = targetModel
 			.getComponents(AABBIntersectionFilter.of(MAABB3d.create(min, max)));
 		obstructionEntities.removeIf(component -> !parkingObstructionsFilter.accept(component));
 
