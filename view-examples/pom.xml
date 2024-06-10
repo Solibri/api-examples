@@ -22,9 +22,9 @@
 		<poi.version>5.2.3</poi.version>
 		<google-http-client.version>1.43.3</google-http-client.version>
 		<google.client.version>1.34.1</google.client.version>
-		<google-api-client.version>2.2.0</google-api-client.version>
+		<google-api-client.version>2.4.0</google-api-client.version>
 		<httpclient.version>4.5.14</httpclient.version>
-		<sqlite-jdbc.version>3.44.1.0</sqlite-jdbc.version>
+		<sqlite-jdbc.version>3.45.3.0</sqlite-jdbc.version>
 	</properties>
 
 	<profiles>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.0</version>
+			<version>1.7.36</version>
 			<scope>system</scope>
 			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
 		</dependency>
@@ -242,8 +242,7 @@
 							<transformers>
 								<!-- This transformer is needed in the checking
 								results exporter example view. -->
-								<transformer
-										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/services/java.sql.Driver</resource>
 								</transformer>
 							</transformers>

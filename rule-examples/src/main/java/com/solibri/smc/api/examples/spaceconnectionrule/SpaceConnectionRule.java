@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.solibri.smc.api.checking.ConcurrentRule;
 import com.solibri.smc.api.checking.EnumerationParameter;
@@ -98,5 +100,17 @@ public final class SpaceConnectionRule extends ConcurrentRule {
 	private Collection<Result> checkSpaceToOutsideAccess(Space entity, ResultFactory resultFactory) {
 		SpaceToOutsideChecking spaceToOutsideChecking = new SpaceToOutsideChecking(this);
 		return spaceToOutsideChecking.checkSpaceToOutsideAccess(entity, resultFactory);
+	}
+
+	@Override
+	public Map<String, String> getParameterTemplateKeyToIdMap() {
+		Map<String, String> parameterTemplateKey = new HashMap<>();
+		parameterTemplateKey.put("PARAM_SPACES_A_TO_CHECK", "rpComponentFilter");
+		parameterTemplateKey.put("PARAM_SPACES_B_TO_CHECK", "rpSpacesFilterB");
+		parameterTemplateKey.put("PARAM_DIRECT_ACCESS_TO_SPACE_B", "rpDirectAccessCondition");
+		parameterTemplateKey.put("PARAM_TYPE_OF_DIRECT_ACCESS_TO_CONSIDER_SPACE_B", "rpTypeOfAccessCondition");
+		parameterTemplateKey.put("PARAM_DIRECT_EXIT_TO_OUTSIDE_FROM_SPACE_A", "rpDirectAccessOutsideCondition");
+		parameterTemplateKey.put("PARAM_TYPE_OF_DIRECT_ACCESS_TO_CONSIDER_SPACE_A", "rpTypeOfAccessOutsideCondition");
+		return parameterTemplateKey;
 	}
 }
