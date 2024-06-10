@@ -4,7 +4,9 @@ import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.solibri.geometry.linearalgebra.MVector3d;
@@ -416,5 +418,31 @@ public final class ParkingRule extends ConcurrentRule {
 	}
 	DoubleParameter getRpObstructionFreeZone() {
 		return rpObstructionFreeZone;
+	}
+
+	@Override
+	public Map<String, String> getParameterTemplateKeyToIdMap() {
+		Map<String, String> parameterTemplateKey = new HashMap<>();
+		parameterTemplateKey.put("PARAM_PARKING_SPACES_TO_CHECK", "rpComponentFilter");
+		parameterTemplateKey.put("PARAM_AISLE_COMP_TO_CHECK", "rpParkingAisleFilter");
+		parameterTemplateKey.put("PARAM_OBSTRUCTION_COMP_TO_CHECK", "rpParkingObstructionsFilter");
+		parameterTemplateKey.put("PARAM_MIN_WIDTH", "rpMinimumWidth");
+		parameterTemplateKey.put("PARAM_MIN_LENGTH", "rpMinimumLength");
+		parameterTemplateKey.put("PARAM_MIN_HEIGHT", "rpMinimumHeight");
+		parameterTemplateKey.put("PARAM_MAX_WIDTH", "rpMaximumWidth");
+		parameterTemplateKey.put("PARAM_MAX_LENGTH", "rpMaximumLength");
+		parameterTemplateKey.put("PARAM_MAX_HEIGHT", "rpMaximumHeight");
+		parameterTemplateKey.put("PARAM_NEITHER_END_OBSTRUCTED", "rpEndObstructionNo");
+		parameterTemplateKey.put("PARAM_ONE_END_OBSTRUCTED", "rpEndObstructionOne");
+		parameterTemplateKey.put("PARAM_BOTH_ENDS_OBSTRUCTED", "rpEndObstructionBoth");
+		parameterTemplateKey.put("PARAM_NEITHER_SIDE_OBSTRUCTED", "rpSideObstructionNo");
+		parameterTemplateKey.put("PARAM_ONE_SIDE_OBSTRUCTED", "rpSideObstructionOne");
+		parameterTemplateKey.put("PARAM_BOTH_SIDE_OBSTRUCTED", "rpSideObstructionBoth");
+		parameterTemplateKey.put("PARAM_PARALLEL_TO_AISLE", "rpParallelOrientation");
+		parameterTemplateKey.put("PARAM_PERPENDICULAR_TO_AISLE", "rpPerpendicularOrientation");
+		parameterTemplateKey.put("PARAM_AT_AN_ANGLE_TO_AISLE", "rpAngledOrientation");
+		parameterTemplateKey.put("PARAM_CHECK_MID_SPACE_OBSTRUCTION_FREE_ZONE", "rpUseObstructionFreeZone");
+		parameterTemplateKey.put("PARAM_MID_SPACE_OBSTRUCTION_FREE_ZONE_LENGTH", "rpObstructionFreeZone");
+		return parameterTemplateKey;
 	}
 }

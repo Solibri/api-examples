@@ -5,16 +5,19 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.solibri.smc.api.SMC;
 import com.solibri.smc.api.checking.BooleanParameter;
+import com.solibri.smc.api.checking.ComponentSelector;
 import com.solibri.smc.api.checking.ConcurrentRule;
 import com.solibri.smc.api.checking.DoubleParameter;
 import com.solibri.smc.api.checking.EnumerationParameter;
 import com.solibri.smc.api.checking.FilterParameter;
+import com.solibri.smc.api.checking.PreCheckResult;
 import com.solibri.smc.api.checking.PropertyReferenceParameter;
 import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
@@ -23,6 +26,7 @@ import com.solibri.smc.api.checking.RuleResources;
 import com.solibri.smc.api.filter.AABBIntersectionFilter;
 import com.solibri.smc.api.filter.ComponentFilter;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.Model;
 import com.solibri.smc.api.model.PropertyReference;
 import com.solibri.smc.api.model.PropertyType;
 import com.solibri.smc.api.ui.UIContainer;
@@ -67,6 +71,7 @@ public class EffectiveCoverageAreaRule extends ConcurrentRule {
 
 	final PropertyReferenceParameter rpAreaPropertyReference = params
 		.createPropertyReference("rpAreaPropertyReference");
+	private Model targetModel;
 
 	/*
 	 * This class collects the information about the 'Ratio of Property Values'
@@ -90,13 +95,13 @@ public class EffectiveCoverageAreaRule extends ConcurrentRule {
 		boolean hasSourceWithCorrectPropertyValue;
 	}
 
-	/*
-	 * The uiDefinition can only be created after all parameters have been
-	 * created.
-	 */
-	private final EffectiveCoverageAreaRuleUIDefinition uiDefinition = new EffectiveCoverageAreaRuleUIDefinition(this);
-
 	private final RuleResources resources = RuleResources.of(this);
+
+	@Override
+	public PreCheckResult preCheck(ComponentSelector components) {
+		targetModel = components.getTargetModel();
+		return super.preCheck(components);
+	}
 
 	@Override
 	public Collection<Result> check(Component component, ResultFactory resultFactory) {
@@ -346,7 +351,7 @@ public class EffectiveCoverageAreaRule extends ConcurrentRule {
 		ComponentFilter nearbyEffectSourcesFilter = AABBIntersectionFilter.ofComponentBounds(spaceEntity, tolerance,
 			ONE_MILLIMETER_IN_METERS).and(rpEffectSources.getValue());
 
-		return SMC.getModel().getComponents(nearbyEffectSourcesFilter);
+		return targetModel.getComponents(nearbyEffectSourcesFilter);
 	}
 
 	EffectiveCoverageChecking getCheck(Component spaceEntity, Collection<Component> effectSources) {
@@ -417,6 +422,24 @@ public class EffectiveCoverageAreaRule extends ConcurrentRule {
 
 	@Override
 	public UIContainer getParametersUIDefinition() {
-		return uiDefinition.getDefinitionContainer();
+		return new EffectiveCoverageAreaRuleUIDefinition(this).getDefinitionContainer();
 	}
+
+	@Override
+	public Map<String, String> getParameterTemplateKeyToIdMap() {
+		Map<String, String> parameterTemplateKey = new HashMap<>();
+		parameterTemplateKey.put("PARAM_SPACES_TO_CHECK", "rpComponentFilter");
+		parameterTemplateKey.put("PARAM_EFFECT_SOURCES", "rpEffectSources");
+		parameterTemplateKey.put("PARAM_EFFECTIVE_RADIUS", "rpEffectParameters.EffectRange");
+		parameterTemplateKey.put("PARAM_CHECK_EFFECT_PROPAGATE_TO_CONNECTED_SPACES",
+			"rpEffectParameters.PropagateToConnectedSpaces");
+		parameterTemplateKey.put("PARAM_MIN_COVERAGE_OF_SURFACE_AREA", "rpMinimumCoverage");
+		parameterTemplateKey.put("PARAM_OCCLUSION_AND_BOUNDS", "rpOcclusionAndBounds");
+		parameterTemplateKey.put("PARAM_REQ_MIN_RATIO", "rpRequiredMinimumRatio");
+		parameterTemplateKey.put("PARAM_EFFECT_SOURCE_PROPERTY_VALUE", "rpEffectSourcePropertyReference");
+		parameterTemplateKey.put("PARAM_EFFECT_SOURCE_MULTIPLIER_VALUE", "rpEffectSourceMultiplier");
+		parameterTemplateKey.put("PARAM_AREA_PROPERTY_VALUE", "rpAreaPropertyReference");
+		return parameterTemplateKey;
+	}
+
 }
