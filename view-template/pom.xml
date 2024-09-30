@@ -23,6 +23,7 @@
 
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+		<slf4j-api.version>2.0.13</slf4j-api.version>
 	</properties>
 
 	<profiles>
@@ -59,7 +60,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.0</version>
+			<version>${slf4j-api.version}</version>
 			<scope>system</scope>
 			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
 		</dependency>

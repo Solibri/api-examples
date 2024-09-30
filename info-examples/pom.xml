@@ -17,8 +17,8 @@
 
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-		<slf4j-api.version>1.7.15</slf4j-api.version>
-		<poi.version>5.2.5</poi.version>
+		<slf4j-api.version>2.0.13</slf4j-api.version>
+		<poi.version>5.3.0</poi.version>
 	</properties>
 
 	<profiles>
@@ -55,7 +55,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.0</version>
+			<version>${slf4j-api.version}</version>
 			<scope>system</scope>
 			<systemPath>${smc-dir}/lib/slf4j-api.jar</systemPath>
 		</dependency>
@@ -74,7 +74,7 @@
 		<dependency>
 		    <groupId>org.javassist</groupId>
 		    <artifactId>javassist</artifactId>
-		    <version>3.29.2-GA</version>
+		    <version>3.30.2-GA</version>
 		</dependency>
 	</dependencies>
 
