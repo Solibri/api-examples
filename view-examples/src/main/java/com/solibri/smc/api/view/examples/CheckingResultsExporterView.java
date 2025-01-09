@@ -108,14 +108,16 @@ public class CheckingResultsExporterView implements View {
 		try {
 			String currentUsersHomeDir = System.getProperty("user.home");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + currentUsersHomeDir + "/sample.db");
-			Statement statement = connection.createStatement();
-			statement.setQueryTimeout(TIMEOUT);
+			try (Statement statement = connection.createStatement()) {
+				statement.setQueryTimeout(TIMEOUT);
 
-			if (overwriteOldExports.getValue()) {
-				statement.executeUpdate("drop table if exists results");
-				statement.executeUpdate("create table results (key string, name string, description string)");
-			} else {
-				statement.executeUpdate("create table if not exists results (key string, name string, description string)");
+				if (overwriteOldExports.getValue()) {
+					statement.executeUpdate("drop table if exists results");
+					statement.executeUpdate("create table results (key string, name string, description string)");
+				} else {
+					statement.executeUpdate(
+						"create table if not exists results (key string, name string, description string)");
+				}
 			}
 			int exportedCount = 0;
 			for (Result result : results) {
@@ -124,11 +126,12 @@ public class CheckingResultsExporterView implements View {
 				}
 				LOG.info("Inserting result: {}", result.getName());
 				String insertString = "insert into results values(?, ?, ?)";
-				PreparedStatement insert = connection.prepareStatement(insertString);
-				insert.setString(1, result.getUniqueKey());
-				insert.setString(2, result.getName());
-				insert.setString(3, result.getDescription());
-				insert.execute();
+				try (PreparedStatement insert = connection.prepareStatement(insertString)) {
+					insert.setString(1, result.getUniqueKey());
+					insert.setString(2, result.getName());
+					insert.setString(3, result.getDescription());
+					insert.execute();
+				}
 				exportedCount++;
 			}
 
