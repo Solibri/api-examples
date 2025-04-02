@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.solibri.smc.api.SMC;
 import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
 import com.solibri.smc.api.checking.RuleResources;
@@ -156,7 +155,7 @@ class SpaceToOutsideChecking {
 	private boolean isConnectionToOutside(Component doorOrOpening) {
 		ComponentFilter closeWallsFilter = AABBIntersectionFilter
 			.ofComponentBounds(doorOrOpening, 0.0, CLOSE_WALLS_CONTRACTION_TOLERANCE_M);
-		Collection<Wall> closeWalls = SMC.getModel().getComponents(closeWallsFilter, Wall.class);
+		Collection<Wall> closeWalls = spaceConnectionRule.getTargetModel().getComponents(closeWallsFilter, Wall.class);
 
 		/*
 		 * Add all the walls to a set for the purpose of visualization.

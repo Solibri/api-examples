@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.solibri.smc.api.SMC;
 import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
 import com.solibri.smc.api.checking.RuleResources;
@@ -183,7 +182,7 @@ class SpaceToSpaceConnectionChecking {
 			.and(spaceConnectionRule.rpSpacesFilterB.getValue())
 			.and(component -> !component.equals(spaceA));
 
-		return new HashSet<>(SMC.getModel().getComponents(potentialBSpacesFilter, Space.class));
+		return new HashSet<>(spaceConnectionRule.getTargetModel().getComponents(potentialBSpacesFilter, Space.class));
 	}
 
 	/**

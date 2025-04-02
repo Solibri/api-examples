@@ -8,13 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.solibri.smc.api.checking.ComponentSelector;
 import com.solibri.smc.api.checking.ConcurrentRule;
 import com.solibri.smc.api.checking.EnumerationParameter;
 import com.solibri.smc.api.checking.FilterParameter;
+import com.solibri.smc.api.checking.PreCheckResult;
 import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
 import com.solibri.smc.api.checking.RuleParameters;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.Model;
 import com.solibri.smc.api.model.components.Space;
 import com.solibri.smc.api.ui.UIContainer;
 
@@ -71,6 +74,18 @@ public final class SpaceConnectionRule extends ConcurrentRule {
 			rpTypeOfAccessConditionParametersList);
 
 	private final SpaceConnectionRuleUIDefinition uiDefinition = new SpaceConnectionRuleUIDefinition(this);
+
+	private Model targetModel;
+
+	Model getTargetModel() {
+		return targetModel;
+	}
+
+	@Override
+	public PreCheckResult preCheck(ComponentSelector components) {
+		targetModel = components.getTargetModel();
+		return super.preCheck(components);
+	}
 
 	@Override
 	public Collection<Result> check(Component component, ResultFactory resultFactory) {
