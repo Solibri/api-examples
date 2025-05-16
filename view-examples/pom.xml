@@ -21,7 +21,7 @@
 		<javafx.version>20</javafx.version>
 		<poi.version>5.4.1</poi.version>
 		<httpclient.version>4.5.14</httpclient.version>
-		<sqlite-jdbc.version>3.49.0.0</sqlite-jdbc.version>
+		<sqlite-jdbc.version>3.49.1.0</sqlite-jdbc.version>
 	</properties>
 
 	<profiles>
