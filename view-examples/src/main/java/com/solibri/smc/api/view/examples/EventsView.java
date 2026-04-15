@@ -89,7 +89,7 @@ public class EventsView implements View {
 
 	@Override
 	public void onComponentChosen(Component component) {
-		addText("onComponentChosen: " + component.getGUID());
+		addText("onComponentChosen: " + component != null ? component.getGUID() : "");
 	}
 
 	@Override

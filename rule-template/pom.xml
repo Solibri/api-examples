@@ -73,7 +73,6 @@
 				<configuration>
 					<release>11</release>
 					<encoding>UTF-8</encoding>
-					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
 

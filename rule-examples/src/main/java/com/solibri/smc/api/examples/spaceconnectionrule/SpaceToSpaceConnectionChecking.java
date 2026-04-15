@@ -69,7 +69,12 @@ class SpaceToSpaceConnectionChecking {
 		String typeOfAccessCondition = spaceConnectionRule.rpTypeOfAccessCondition.getValue();
 		String directAccessCondition = spaceConnectionRule.rpDirectAccessCondition.getValue();
 		if (SpaceConnectionRule.DIRECT_ACCESS_REQUIRED.equals(directAccessCondition)) {
-			if (SpaceConnectionRule.TYPE_ANY_DOOR_OR_OPENING.equals(typeOfAccessCondition)) {
+			if (bSpaces.isEmpty()) {
+				// If there are no nearby spaces at all, we can directly raise an issue for the space A, without
+				// involving any space B.
+				results.add(createRequiredDirectAccessResult(spaceA, resultFactory));
+
+			} else if (SpaceConnectionRule.TYPE_ANY_DOOR_OR_OPENING.equals(typeOfAccessCondition)) {
 				for (Space spaceB : bSpacesWithoutAnyConnection) {
 					results.add(createRequiredDirectAccessResult(spaceA, spaceB, resultFactory));
 				}
@@ -203,6 +208,14 @@ class SpaceToSpaceConnectionChecking {
 			.withCustomUniqueKey("createRequiredDirectAccessResult" + spaceA.getGUID() + ":" + offendingSpace
 				.getGUID())
 			.withInvolvedComponent(offendingSpace);
+	}
+
+	private Result createRequiredDirectAccessResult(Space spaceA, ResultFactory resultFactory) {
+		String spaceADisplayName = spaceA.getName();
+		String name = resources.getString("Result.NoSpaceB.Name");
+		String description = resources.getString("Result.NoSpaceB.Description", spaceADisplayName);
+		return resultFactory
+			.create(name, description);
 	}
 
 	/**

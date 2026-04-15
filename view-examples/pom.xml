@@ -22,6 +22,7 @@
 		<poi.version>5.4.1</poi.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<sqlite-jdbc.version>3.49.0.0</sqlite-jdbc.version>
+		<commons-lang3.version>3.18.0</commons-lang3.version>
 	</properties>
 
 	<profiles>
@@ -38,6 +39,15 @@
 			</properties>
 		</profile>
 	</profiles>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -112,7 +122,6 @@
 				<configuration>
 					<release>11</release>
 					<encoding>UTF-8</encoding>
-					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
 

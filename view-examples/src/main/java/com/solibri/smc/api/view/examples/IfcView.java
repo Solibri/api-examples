@@ -46,6 +46,10 @@ public final class IfcView implements View {
 
 	@Override
 	public void onComponentChosen(Component component) {
+		if (component == null) {
+			LOG.info("No component selected.");
+			return;
+		}
 		Optional<IfcEntityType> optionalType = component.getIfcEntityType();
 		if (optionalType.isEmpty()) {
 			LOG.info("No Ifc type found from component {}.", component.getName());

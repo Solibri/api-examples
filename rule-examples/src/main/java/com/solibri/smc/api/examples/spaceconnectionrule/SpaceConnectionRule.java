@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.solibri.smc.api.checking.ComponentSelector;
 import com.solibri.smc.api.checking.ConcurrentRule;
@@ -16,7 +17,9 @@ import com.solibri.smc.api.checking.PreCheckResult;
 import com.solibri.smc.api.checking.Result;
 import com.solibri.smc.api.checking.ResultFactory;
 import com.solibri.smc.api.checking.RuleParameters;
+import com.solibri.smc.api.filter.ComponentFilter;
 import com.solibri.smc.api.model.Component;
+import com.solibri.smc.api.model.ComponentType;
 import com.solibri.smc.api.model.Model;
 import com.solibri.smc.api.model.components.Space;
 import com.solibri.smc.api.ui.UIContainer;
@@ -84,7 +87,24 @@ public final class SpaceConnectionRule extends ConcurrentRule {
 	@Override
 	public PreCheckResult preCheck(ComponentSelector components) {
 		targetModel = components.getTargetModel();
-		return super.preCheck(components);
+		// require spaces in the selection A, otherwise the rule is not relevant
+		ComponentSelector delegate = new ComponentSelector() {
+			@Override
+			public Set<Component> select(ComponentFilter filter) {
+				return components.select(filter.and(c -> c.getComponentType() == ComponentType.SPACE));
+			}
+
+			@Override
+			public boolean hasSelectedComponents() {
+				return components.hasSelectedComponents();
+			}
+
+			@Override
+			public Model getTargetModel() {
+				return components.getTargetModel();
+			}
+		};
+		return super.preCheck(delegate);
 	}
 
 	@Override

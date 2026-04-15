@@ -19,6 +19,7 @@
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 		<slf4j-api.version>2.0.17</slf4j-api.version>
 		<poi.version>5.4.1</poi.version>
+		<commons-lang3.version>3.18.0</commons-lang3.version>
 	</properties>
 
 	<profiles>
@@ -35,6 +36,15 @@
 			</properties>
 		</profile>
 	</profiles>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -86,7 +96,6 @@
 				<configuration>
 					<release>11</release>
 					<encoding>UTF-8</encoding>
-					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
 
