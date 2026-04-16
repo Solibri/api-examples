@@ -19,7 +19,7 @@
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 		<slf4j-api.version>2.0.17</slf4j-api.version>
 		<javafx.version>20</javafx.version>
-		<poi.version>5.4.1</poi.version>
+		<poi.version>5.5.0</poi.version>
 		<httpclient.version>4.5.14</httpclient.version>
 		<sqlite-jdbc.version>3.49.0.0</sqlite-jdbc.version>
 		<commons-lang3.version>3.18.0</commons-lang3.version>
