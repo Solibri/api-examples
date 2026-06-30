@@ -81,7 +81,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
 				<configuration>
-					<outputDirectory>${smc-dir}/lib</outputDirectory>
+					<outputDirectory>${smc-dir}/API</outputDirectory>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 						<manifest>

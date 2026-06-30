@@ -104,7 +104,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
 				<configuration>
-					<outputDirectory>${smc-dir}/lib</outputDirectory>
+					<outputDirectory>${smc-dir}/API</outputDirectory>
 				</configuration>
 			</plugin>
 			<!-- maven-shade-plugin is needed because we use external dependencies that aren't found from the installation automatically. 
