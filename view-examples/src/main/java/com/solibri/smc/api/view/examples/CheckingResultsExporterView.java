@@ -65,7 +65,9 @@ public class CheckingResultsExporterView implements View {
 
 	@Override
 	public boolean onApplicationExit() {
-		int chosenOption = JOptionPane.showConfirmDialog(rootPanel,
+		// Use the application frame as parent so the dialog opens on the same screen as the main window,
+		// even if the view's panel is not currently showing.
+		int chosenOption = JOptionPane.showConfirmDialog(SMC.getApplicationFrame(),
 			"Do you really wish to close the software?", "Closing confirmation", JOptionPane.YES_NO_OPTION);
 		return JOptionPane.YES_OPTION == chosenOption;
 	}
